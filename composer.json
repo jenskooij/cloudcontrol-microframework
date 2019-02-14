@@ -1,14 +1,9 @@
 {
-  "name": "jenskooij/auth-microservice",
-  "description": "Authentication Provider",
+  "name": "getcloudcontrol/microframework",
+  "description": "Skeleton Microframework for quickly building microservices",
   "license": "MIT",
   "require": {
-    "php": "^7.2",
-    "ext-sqlite3": "*",
-    "ext-pdo_sqlite": "*",
-    "ext-pdo": "*",
-    "ext-mbstring": "*",
-    "phpseclib/phpseclib": "^2.0",
+    "php": ">=7.1",
     "twig/twig": "^2.0",
     "filp/whoops": "^2.3",
     "ext-json": "*"
