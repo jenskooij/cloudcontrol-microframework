@@ -37,9 +37,15 @@ class Renderer
         ob_end_flush();
     }
 
-    public static function renderAndStop(): void
+    /**
+     * @param array $context
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public static function renderAndStop($context = []): void
     {
-        self::render();
+        self::render($context);
         exit;
     }
 
