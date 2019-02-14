@@ -55,6 +55,14 @@ class App
     public static function run(): void
     {
         Router::route();
+        /** @var RouteRepresentingObject $routeRepresentingObject */
+        /** @var Route $route */
+        foreach (Router::getMatchedRoutes() as $routeRepresentingObject) {
+            if ($routeRepresentingObject->route !== null) {
+                $route = new $routeRepresentingObject->route;
+                $route->run();
+            }
+        }
     }
 
     /**
@@ -101,6 +109,14 @@ class App
 
     public static function render(): void
     {
-        Renderer::render();
+        Router::route();
+        /** @var RouteRepresentingObject $routeRepresentingObject */
+        /** @var Route $route */
+        foreach (Router::getMatchedRoutes() as $routeRepresentingObject) {
+            if ($routeRepresentingObject->template !== null) {
+                Renderer::setTemplate($routeRepresentingObject->template);
+                Renderer::render();
+            }
+        }
     }
 }

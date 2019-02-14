@@ -8,37 +8,30 @@ namespace getcloudcontrol\microframework;
 class Router
 {
     protected static $routeFile;
+    protected static $matchedRoutes;
+    protected static $routed = false;
 
     public static function route()
     {
-        self::checkRouteFile();
-        $arrayOfRoutes = self::getArrayOfRoutes();
+        if (self::$routed === false) {
+            self::checkRouteFile();
+            $arrayOfRoutes = self::getArrayOfRoutes();
 
-        $matchingRoutes = array_filter(
-            $arrayOfRoutes,
-            /**
-             * @param $e RouteRepresentingObject
-             * @return bool
-             */
-            function ($e) {
-                if (self::isLikelyRegex($e->relativeUri)) {
-                    return preg_match($e->relativeUri, Request::getRelativeUri(), $e->matches);
+            self::$matchedRoutes = array_filter(
+                $arrayOfRoutes,
+                /**
+                 * @param $e RouteRepresentingObject
+                 * @return bool
+                 */
+                function ($e) {
+                    if (self::isLikelyRegex($e->relativeUri)) {
+                        return preg_match($e->relativeUri, Request::getRelativeUri(), $e->matches);
+                    }
+                    return $e->relativeUri == Request::getRelativeUri();
+
                 }
-                return $e->relativeUri == Request::getRelativeUri();
-
-            }
-        );
-
-        /** @var RouteRepresentingObject $routeRepresentingObject */
-        /** @var Route $route */
-        foreach ($matchingRoutes as $routeRepresentingObject) {
-            $route = new $routeRepresentingObject->route;
-            $route->run();
-
-            if ($routeRepresentingObject->template !== null) {
-                Renderer::setTemplate($routeRepresentingObject->template);
-                Renderer::render();
-            }
+            );
+            self::$routed = true;
         }
     }
 
@@ -91,5 +84,13 @@ class Router
 
         // Unserialize and walk away like nothing happend
         return unserialize($temp);
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getMatchedRoutes()
+    {
+        return self::$matchedRoutes;
     }
 }
