@@ -22,9 +22,10 @@ class Router
              */
             function ($e) {
                 if (self::isLikelyRegex($e->relativeUri)) {
-                    return preg_match($e->relativeUri, Request::getRelativeUri());
+                    return preg_match($e->relativeUri, Request::getRelativeUri(), $e->matches);
                 }
                 return $e->relativeUri == Request::getRelativeUri();
+
             }
         );
 

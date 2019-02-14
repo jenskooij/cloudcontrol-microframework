@@ -20,4 +20,8 @@ class RouteRepresentingObject
      * @var $template string Optional name of the template to be rendered
      */
     public $template;
+    /**
+     * @var array If this was a route with a regular expression, this is where the matches will end up
+     */
+    public $matches = array();
 }
