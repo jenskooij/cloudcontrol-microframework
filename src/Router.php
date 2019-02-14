@@ -21,12 +21,19 @@ class Router
              * @return bool
              */
             function ($e) {
-                return $e->relativeUri == Request::getRelativeUri() || preg_match($e->relativeUri, Request::getRelativeUri());
+                if (self::isLikelyRegex($e->relativeUri)) {
+                    return preg_match($e->relativeUri, Request::getRelativeUri());
+                }
+                return $e->relativeUri == Request::getRelativeUri();
             }
         );
 
         var_dump($neededObject);
         exit;
+    }
+
+    private static function isLikelyRegex($string) {
+        return preg_match("/^\/.+\/[a-z]*$/i",$string);
     }
 
     private static function buildDefaultRoutesFile()
