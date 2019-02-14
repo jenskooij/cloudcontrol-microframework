@@ -26,6 +26,7 @@ class Request
     const METHOD_HEAD = 'HEAD';
     const METHOD_OPTIONS = 'OPTIONS';
     const METHOD_OTHER = 'OTHER';
+    const REQUEST_METHOD = 'REQUEST_METHOD';
     protected static $requestUri;
     protected static $queryString;
     protected static $relativeUri;
@@ -147,7 +148,7 @@ class Request
 
     public static function getRequestMethod()
     {
-        $request_method = strtoupper(getenv('REQUEST_METHOD'));
+        $request_method = strtoupper(isset($_SERVER[self::REQUEST_METHOD]) ? $_SERVER[self::REQUEST_METHOD] :  getenv(self::REQUEST_METHOD));
         $http_methods = array(
             self::METHOD_GET,
             self::METHOD_POST,
