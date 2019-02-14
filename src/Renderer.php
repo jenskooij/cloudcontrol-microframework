@@ -12,7 +12,7 @@ use Twig_Loader_Filesystem;
 class Renderer
 {
     protected static $template = '404.twig';
-    protected static $cacheEnabled = true;
+    protected static $cacheEnabled;
     protected static $cacheDir;
     protected static $headersSent = false;
 
@@ -81,6 +81,13 @@ class Renderer
      */
     public static function isCacheEnabled(): bool
     {
+        if (self::$cacheEnabled === null) {
+            if (Request::isLocalhost()) {
+                self::$cacheEnabled = false;
+            } else {
+                self::$cacheEnabled = true;
+            }
+        }
         return self::$cacheEnabled;
     }
 
