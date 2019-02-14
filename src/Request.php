@@ -85,7 +85,7 @@ class Request
     public static function getRelativeUri(): string
     {
         if (self::$relativeUri === null) {
-            if (self::getSubfolders() === '/') {
+            if (App::getSubfolders() === '/') {
                 self::$relativeUri = str_replace('?' . self::getQueryString(), '', substr(self::getRequestUri(), 1));
             } else {
                 self::$relativeUri = str_replace('?' . self::getQueryString(), '',
