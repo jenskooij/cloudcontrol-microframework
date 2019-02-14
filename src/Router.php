@@ -14,7 +14,7 @@ class Router
         self::checkRouteFile();
         $arrayOfRoutes = self::getArrayOfRoutes();
 
-        $neededObject = array_filter(
+        $matchingRoutes = array_filter(
             $arrayOfRoutes,
             /**
              * @param $e RouteRepresentingObject
@@ -29,8 +29,17 @@ class Router
             }
         );
 
-        var_dump($neededObject);
-        exit;
+        /** @var RouteRepresentingObject $routeRepresentingObject */
+        /** @var Route $route */
+        foreach ($matchingRoutes as $routeRepresentingObject) {
+            $route = new $routeRepresentingObject->route;
+            $route->run();
+
+            if ($routeRepresentingObject->template !== null) {
+                Renderer::setTemplate($routeRepresentingObject->template);
+                Renderer::render();
+            }
+        }
     }
 
     private static function isLikelyRegex($string) {
