@@ -14,6 +14,7 @@ class Renderer
     protected static $template = '404.twig';
     protected static $cacheEnabled = true;
     protected static $cacheDir;
+    protected static $headersSent = false;
 
     /**
      * @param array $context
@@ -24,6 +25,7 @@ class Renderer
     public static function render($context = []): void
     {
         ob_clean();
+        self::sendHeaders();
         $loader = new Twig_Loader_Filesystem(App::getTemplateDir());
         $options = [];
         if (self::isCacheEnabled()) {
@@ -82,5 +84,13 @@ class Renderer
     public static function setCacheEnabled(bool $cacheEnabled): void
     {
         self::$cacheEnabled = $cacheEnabled;
+    }
+
+    private static function sendHeaders()
+    {
+        if (self::$headersSent === false) {
+            ResponseHeaders::sendAllHeaders();
+        }
+        self::$headersSent = true;
     }
 }
