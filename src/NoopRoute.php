@@ -6,7 +6,7 @@
 namespace getcloudcontrol\microframework;
 
 
-class NoopRoute implements Route
+class NoopRoute extends Route
 {
 
     /**

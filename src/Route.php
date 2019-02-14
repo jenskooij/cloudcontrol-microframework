@@ -6,16 +6,21 @@
 namespace getcloudcontrol\microframework;
 
 
-interface Route
+abstract class Route
 {
     /**
      * Runs the logic for the selected Route
      */
-    public function run():void;
+    abstract public function run():void;
 
     /**
      * Returns the context, that will be exposed to the template
+     * Implementation hook
+     *
      * @return array
      */
-    public function getContext():array;
+    public function getContext():array
+    {
+        return [];
+    }
 }
