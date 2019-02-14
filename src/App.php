@@ -27,7 +27,7 @@ class App
     {
         if (PHP_SAPI === 'cli-server'
             && self::isAllowedFileExtension()
-            && file_exists(self::getPublicDir() . self::getRequestUri())) {
+            && file_exists(self::getPublicDir() . Request::getRequestUri())) {
             return true;    // serve the requested resource as-is.
         }
         return false;
@@ -36,7 +36,7 @@ class App
     private static function isAllowedFileExtension(): bool
     {
         return preg_match('/\.(?:js|ico|txt|gif|jpg|jpeg|png|bmp|css|html|htm|php|pdf|exe|eot|svg|ttf|woff|ogg|mp3|xml|map|scss|json)$/',
-            self::getRequestUri());
+            Request::getRequestUri());
     }
 
     public static function prepare(string $publicDir): void
