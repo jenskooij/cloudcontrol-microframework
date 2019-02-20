@@ -10,8 +10,9 @@ abstract class Route
 {
     /**
      * Runs the logic for the selected Route
+     * @param array $uriMatches
      */
-    abstract public function run():void;
+    abstract public function run($uriMatches = []):void;
 
     /**
      * Returns the context, that will be exposed to the template

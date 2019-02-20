@@ -11,8 +11,9 @@ class NoopRoute extends Route
 
     /**
      * Runs the logic for the selected Route
+     * @param array $uriMatches
      */
-    public function run(): void
+    public function run($uriMatches = []): void
     {
         // Doesn't do anything
     }

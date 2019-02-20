@@ -60,7 +60,7 @@ class App
         foreach (Router::getMatchedRoutes() as $routeRepresentingObject) {
             if ($routeRepresentingObject->route !== null) {
                 $route = new $routeRepresentingObject->route;
-                $route->run();
+                $route->run(isset($routeRepresentingObject->matches) ? $routeRepresentingObject->matches : []);
             }
         }
     }
