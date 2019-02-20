@@ -115,7 +115,12 @@ class App
         foreach (Router::getMatchedRoutes() as $routeRepresentingObject) {
             if ($routeRepresentingObject->template !== null) {
                 Renderer::setTemplate($routeRepresentingObject->template);
-                Renderer::render();
+                $context = [];
+                if ($routeRepresentingObject->route !== null) {
+                    $route = new $routeRepresentingObject->route;
+                    $context = $route->getContext();
+                }
+                Renderer::render($context);
             }
         }
     }
