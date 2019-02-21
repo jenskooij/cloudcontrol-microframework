@@ -6,7 +6,7 @@
 namespace getcloudcontrol\microframework;
 
 
-abstract class Route
+abstract class Route implements IRoute
 {
     /**
      * Runs the logic for the selected Route
