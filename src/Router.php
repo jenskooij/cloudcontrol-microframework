@@ -5,6 +5,8 @@
 
 namespace getcloudcontrol\microframework;
 
+use ReflectionClass;
+
 class Router
 {
     protected static $routeFile;
@@ -92,5 +94,22 @@ class Router
     public static function getMatchedRoutes()
     {
         return self::$matchedRoutes;
+    }
+
+    /**
+     * @return array
+     * @throws \ReflectionException
+     */
+    public static function getAllAvailableRoutes()
+    {
+        $classes = get_declared_classes();
+        $implementsIRoute = array();
+        foreach($classes as $klass) {
+            $reflect = new ReflectionClass($klass);
+            if($reflect->implementsInterface('\getcloudcontrol\microframework\IRoute')) {
+                $implementsIRoute[] = $klass;
+            }
+        }
+        return $implementsIRoute;
     }
 }
