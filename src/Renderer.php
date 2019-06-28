@@ -6,8 +6,11 @@
 namespace getcloudcontrol\microframework;
 
 
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Loader\FilesystemLoader;
 
 class Renderer
 {
@@ -18,20 +21,20 @@ class Renderer
 
     /**
      * @param array $context
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public static function render($context = []): void
     {
         ob_clean();
         self::sendHeaders();
-        $loader = new Twig_Loader_Filesystem(App::getTemplateDir());
+        $loader = new FilesystemLoader(App::getTemplateDir());
         $options = [];
         if (self::isCacheEnabled()) {
             $options['cache'] = self::getCacheDir();
         }
-        $twig = new Twig_Environment($loader, $options);
+        $twig = new Environment($loader, $options);
 
         echo $twig->render(self::$template, $context);
         ob_end_flush();
@@ -39,9 +42,9 @@ class Renderer
 
     /**
      * @param array $context
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public static function renderAndStop($context = []): void
     {
