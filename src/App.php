@@ -48,7 +48,7 @@ class App
         self::$publicDir = $publicDir;
 
         $whoops = new Run;
-        $whoops->pushHandler(new PrettyPageHandler);
+        $whoops->prependHandler(new PrettyPageHandler);
         $whoops->register();
 
         ResponseHeaders::init();
