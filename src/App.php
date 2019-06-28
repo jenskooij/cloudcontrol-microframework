@@ -6,11 +6,13 @@
 namespace getcloudcontrol\microframework;
 
 
+use Exception;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
 class App
 {
+    const DEFAULT_TEMPLATE_DIR_NAME = 'templates';
     private static $publicDir;
     private static $subfolders;
     private static $templateDir;
@@ -99,10 +101,17 @@ class App
         return self::$subfolders;
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public static function getTemplateDir(): string
     {
         if (self::$templateDir === null) {
-            self::$templateDir = realpath(self::getPublicDir() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR);
+            self::$templateDir = realpath(self::getPublicDir() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . self::DEFAULT_TEMPLATE_DIR_NAME . DIRECTORY_SEPARATOR);
+            if (empty(self::$templateDir) || !is_dir(self::$templateDir)) {
+                throw new Exception(sprintf("Template dir \"%s\" does not exist.", self::DEFAULT_TEMPLATE_DIR_NAME));
+            }
         }
         return self::$templateDir;
     }
