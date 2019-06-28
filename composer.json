@@ -5,8 +5,8 @@
   "require": {
     "php": ">=7.2",
     "twig/twig": "^2",
-    "filp/whoops": "^2.3",
-    "ext-json": "*"
+    "ext-json": "*",
+    "tracy/tracy": "^2.6"
   },
   "autoload": {
     "psr-4": {

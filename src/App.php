@@ -7,15 +7,20 @@ namespace getcloudcontrol\microframework;
 
 
 use Exception;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
+use getcloudcontrol\microframework\routing\IRouteSupplier;
+use getcloudcontrol\microframework\routing\JsonRouteSupplier;
+use getcloudcontrol\microframework\routing\Router;
+use Tracy\Debugger;
 
 class App
 {
     const DEFAULT_TEMPLATE_DIR_NAME = 'templates';
+    const DEFAULT_LOGS_DIR_NAME = 'logs';
+
     private static $publicDir;
     private static $subfolders;
     private static $templateDir;
+    private static $routeSupplier;
 
     /**
      * App constructor made private to disable instantiation
@@ -43,13 +48,17 @@ class App
 
     public static function prepare(string $publicDir): void
     {
-        ob_start('\jenskooij\auth\util\GlobalFunctions::sanitizeOutput');
-        session_start();
         self::$publicDir = $publicDir;
+        self::initializeDebugger();
 
-        $whoops = new Run;
-        $whoops->prependHandler(new PrettyPageHandler);
-        $whoops->register();
+        if (Debugger::detectDebugMode()) {
+            ob_start();
+        } else {
+            ob_start('\jenskooij\auth\util\GlobalFunctions::sanitizeOutput');
+        }
+
+        session_start();
+
 
         ResponseHeaders::init();
     }
@@ -132,5 +141,31 @@ class App
                 Renderer::render($context);
             }
         }
+    }
+
+    protected static function initializeDebugger(): void
+    {
+        Debugger::enable();
+        Debugger::$strictMode = true;
+        Debugger::$logDirectory = self::getRootDir() . DIRECTORY_SEPARATOR . self::DEFAULT_LOGS_DIR_NAME;
+    }
+
+    /**
+     * @return IRouteSupplier
+     */
+    public static function getRouteSupplier(): IRouteSupplier
+    {
+        if (self::$routeSupplier === null) {
+            self::$routeSupplier = new JsonRouteSupplier();
+        }
+        return self::$routeSupplier;
+    }
+
+    /**
+     * @param IRouteSupplier $routeSupplier
+     */
+    public static function setRouteSupplier(IRouteSupplier $routeSupplier): void
+    {
+        self::$routeSupplier = $routeSupplier;
     }
 }

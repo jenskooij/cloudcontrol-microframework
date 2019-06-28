@@ -3,7 +3,7 @@
  * Created by Jens on 14-2-2019.
  */
 
-namespace getcloudcontrol\microframework;
+namespace getcloudcontrol\microframework\routing;
 
 
 abstract class Route implements IRoute
