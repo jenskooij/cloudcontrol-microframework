@@ -24,8 +24,9 @@ project files can remain in the root directory and be inaccessible remotely.
 `index.php:`
 ```
 <?php
-require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
+require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+use getcloudcontrol\microframework\App;
 
 App::prepare(__DIR__);
 if (App::cliServerServeResource()) {
@@ -34,6 +35,7 @@ if (App::cliServerServeResource()) {
 
 App::run();
 App::render();
+
 ```
 
 ### Run locally
