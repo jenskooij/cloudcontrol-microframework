@@ -6,6 +6,7 @@
 namespace getcloudcontrol\microframework;
 
 
+use Tracy\Debugger;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -24,6 +25,7 @@ class Renderer
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws \Exception
      */
     public static function render($context = []): void
     {
@@ -85,7 +87,7 @@ class Renderer
     public static function isCacheEnabled(): bool
     {
         if (self::$cacheEnabled === null) {
-            if (Request::isLocalhost()) {
+            if (Debugger::detectDebugMode()) {
                 self::$cacheEnabled = false;
             } else {
                 self::$cacheEnabled = true;

@@ -6,6 +6,8 @@
 
 namespace getcloudcontrol\microframework;
 
+use Tracy\Debugger;
+
 class ResponseHeaders
 {
     const HEADER_ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin';
@@ -82,7 +84,7 @@ class ResponseHeaders
             self::add(self::HEADER_CONTENT_SECURITY_POLICY, self::HEADER_CONTENT_SECURITY_POLICY_CONTENT_SECURE);
             self::add(self::HEADER_STRICT_TRANSPORT_SECURITY, self::HEADER_STRICT_TRANSPORT_SECURITY_CONTENT);
             self::add(self::HEADER_X_CONTENT_SECURITY_POLICY, self::HEADER_CONTENT_SECURITY_POLICY_CONTENT_SECURE);
-        } elseif (Request::isLocalhost()) {
+        } elseif (Debugger::detectDebugMode()) {
             self::add(self::HEADER_CONTENT_SECURITY_POLICY, self::HEADER_CONTENT_SECURITY_POLICY_CONTENT_LOCALHOST);
             self::add(self::HEADER_X_CONTENT_SECURITY_POLICY, self::HEADER_CONTENT_SECURITY_POLICY_CONTENT_LOCALHOST);
         } else {
