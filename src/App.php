@@ -9,8 +9,13 @@ namespace getcloudcontrol\microframework;
 use Exception;
 use getcloudcontrol\microframework\routing\IRouteSupplier;
 use getcloudcontrol\microframework\routing\JsonRouteSupplier;
+use getcloudcontrol\microframework\routing\Route;
 use getcloudcontrol\microframework\routing\Router;
+use getcloudcontrol\microframework\routing\RouteRepresentingObject;
 use Tracy\Debugger;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class App
 {
@@ -54,7 +59,7 @@ class App
         if (Debugger::detectDebugMode()) {
             ob_start();
         } else {
-            ob_start('\jenskooij\auth\util\GlobalFunctions::sanitizeOutput');
+            ob_start('\getcloudcontrol\microframework\Renderer::sanitizeOutput');
         }
 
         session_start();
@@ -125,6 +130,11 @@ class App
         return self::$templateDir;
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public static function render(): void
     {
         Router::route();
