@@ -147,6 +147,7 @@ class App
     {
         Debugger::enable();
         Debugger::$strictMode = true;
+        Debugger::$showLocation = true;
         Debugger::$logDirectory = self::getRootDir() . DIRECTORY_SEPARATOR . self::DEFAULT_LOGS_DIR_NAME;
     }
 
